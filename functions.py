@@ -14,4 +14,5 @@ def mse(Pred,Act):
     return (Pred-Act)**2
 
 def d_mse(Pred,Act):
-    return 2*Pred-2*Act
+    return Pred-Act
+
