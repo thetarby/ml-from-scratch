@@ -13,7 +13,7 @@ output layer 1 neuron
 
 #model:
 model_input=3
-w_inp_hidden1=np.random.rand(1024,1)*2-1
+w_inp_hidden1=np.random.rand(1024,2)*2-1
 w_inp_hidden1_g=[]
 b_hidden1=np.random.rand(1,1024)*2-1
 b_hidden1_g=[]
@@ -60,7 +60,11 @@ def back_pass(pred,act):
     global b_hidden1_g
     b_hidden1_g=x
 
-    x=np.matmul(model_input,x)
+    res=[]
+    for dim in model_input[0]:
+        res.append((dim*x)[0])
+
+    x=np.array(res)
     global w_inp_hidden1_g
     w_inp_hidden1_g=np.transpose(x)
 
@@ -86,11 +90,12 @@ def train():
 
     for i in range(10000):
         #sample(1)
-        n=np.random.rand()
-        pred=forward_pass([[n]])
+        x,y=np.random.rand(2)
+        print(x,y)
+        pred=forward_pass([[x,y]])
 
-        act=math.sin(n*15)/2+1+n**2 if n>0 else 0 #2*n if n>0 else 0
-        print("-----------------------pass : {} ----------------".format(n))
+        act=int(0.1>((x-0.5)**2+(y-0.5)**2)) #2*n if n>0 else 0
+        print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         back_pass(pred,act)
         update()
@@ -118,9 +123,30 @@ def sample(x):
     if(x): plt.clf()
     else: 
         input()
-"""
+
+
+def sample2d():
+    f = plt.figure(1)
+    plt.plot()
+    for i in range(50):
+        for j in range(50):
+            x=1/50*i
+            y=1/50*j
+            if forward_pass([[x,y]])>0.5:
+                plt.scatter(x,y,color='r')
+            else:plt.scatter(x,y,color='b')
+    plt.show()
+
+    plt.plot()
+    for i in range(50):
+        for j in range(50):
+            x=1/50*i
+            y=1/50*j
+            if 0.1>((x-0.5)**2+(y-0.5)**2):
+                plt.scatter(x,y,color='r')
+            else:plt.scatter(x,y,color='b')
+    plt.show()
 train()
-sample(0)
+#sample(0)
+sample2d()
 x=input()
-"""
-forward_pass([[1,2]])

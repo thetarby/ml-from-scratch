@@ -15,10 +15,20 @@ def tanh(X):
     dt=1-t**2
     return t
 
-def d_tanh(x):
+def d_tanh(X):
     t=(np.exp(X)-np.exp(-X))/(np.exp(X)+np.exp(-X))
     dt=1-t**2
     return dt
+
+def sigmoid(X):
+    s=1/(1+np.exp(-X))  
+    return s
+
+def d_sigmoid(X):
+    s=1/(1+np.exp(-X))
+    ds=s*(1-s)  
+    return ds
+
 
 def mse(Pred,Act):
     return (Pred-Act)**2
