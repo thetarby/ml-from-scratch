@@ -25,7 +25,7 @@ hidden_layer1=[]
 w_hidden1_out=np.random.rand(1,1024)*2-1
 w_hidden1_out_g=[]
 
-output=[]
+output_in=[]
 
 
 
@@ -41,14 +41,18 @@ def forward_pass(inp):
     hidden_layer1=res
 
     res=np.matmul(hidden_layer1,np.transpose(w_hidden1_out))
-    return res
+    
+    global output_in
+    output_in=res
+
+    return f.sigmoid(res)
 
 def back_pass(pred,act):
     e=f.mse(pred,act)
     print("error : {}".format(e))
     #derivative of out layer
-    x=f.d_mse(pred,act)
-    y=f.d_mse(pred,act)
+    x=f.d_mse(pred,act)*f.d_sigmoid(output_in)
+    y=f.d_mse(pred,act)*f.d_sigmoid(output_in)
 
     #derivative of hidden2-out weights
     x=np.matmul(x,hidden_layer1)
@@ -71,7 +75,7 @@ def back_pass(pred,act):
 def update():
     global w_inp_hidden1,w_hidden1_out,b_hidden1
     w_inp_hidden1=w_inp_hidden1-np.array(w_inp_hidden1_g)*0.01
-    w_hidden1_out=w_hidden1_out-np.array(w_hidden1_out_g)*0.00005
+    w_hidden1_out=w_hidden1_out-np.array(w_hidden1_out_g)*0.005
     b_hidden1=b_hidden1-np.array(b_hidden1_g)*0.001
 
 
@@ -146,6 +150,8 @@ def sample2d():
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()
+#sample2d()
+
 train()
 #sample(0)
 sample2d()
