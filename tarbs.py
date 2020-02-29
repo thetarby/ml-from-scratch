@@ -13,16 +13,16 @@ output layer 1 neuron
 
 #model:
 model_input=3
-w_inp_hidden1=np.random.rand(1024,2)*2-1
+w_inp_hidden1=np.random.rand(2000,2)*2-1
 w_inp_hidden1_g=[]
-b_hidden1=np.random.rand(1,1024)*2-1
+b_hidden1=np.random.rand(1,2000)*2-1
 b_hidden1_g=[]
 
 hidden_layer1_in=[]
 hidden_layer1=[]
 
 
-w_hidden1_out=np.random.rand(1,1024)*2-1
+w_hidden1_out=np.random.rand(1,2000)*2-1
 w_hidden1_out_g=[]
 
 output_in=[]
@@ -75,7 +75,7 @@ def back_pass(pred,act):
 def update():
     global w_inp_hidden1,w_hidden1_out,b_hidden1
     w_inp_hidden1=w_inp_hidden1-np.array(w_inp_hidden1_g)*0.01
-    w_hidden1_out=w_hidden1_out-np.array(w_hidden1_out_g)*0.005
+    w_hidden1_out=w_hidden1_out-np.array(w_hidden1_out_g)*0.0005
     b_hidden1=b_hidden1-np.array(b_hidden1_g)*0.001
 
 
@@ -92,13 +92,13 @@ def train():
     print("-----------------------------beginning weights------------------")
 
 
-    for i in range(10000):
+    for i in range(1000):
         #sample(1)
         x,y=np.random.rand(2)
         print(x,y)
         pred=forward_pass([[x,y]])
 
-        act=int(0.1>((x-0.5)**2+(y-0.5)**2)) #2*n if n>0 else 0
+        act=int( 0.15>((x-0.5)**2+(y-0.5)**2)) #2*n if n>0 else 0
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         back_pass(pred,act)
@@ -146,10 +146,11 @@ def sample2d():
         for j in range(50):
             x=1/50*i
             y=1/50*j
-            if 0.1>((x-0.5)**2+(y-0.5)**2):
+            if (0.15>((x-0.5)**2+(y-0.5)**2) ) :
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()
+
 #sample2d()
 
 train()
