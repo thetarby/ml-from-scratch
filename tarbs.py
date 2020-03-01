@@ -2,7 +2,7 @@ import numpy as np
 import functions as f
 import matplotlib.pyplot as plt
 import math 
-
+np.random.seed(42)
 layers=[]
 """
 input 1 neuron
@@ -92,7 +92,7 @@ def train():
     print("-----------------------------beginning weights------------------")
 
 
-    for i in range(1000):
+    for i in range(5000):
         #sample(1)
         x,y=np.random.rand(2)
         print(x,y)
