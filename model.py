@@ -49,7 +49,7 @@ class Model:
 
 
     def backward(self,actual):
-        #calculater error with mse wrt to actual value
+        #calculate error with mse wrt to actual value
         e=f.mse(self.output,actual)
         print("error : {}".format(e))
 
