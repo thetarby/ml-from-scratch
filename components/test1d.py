@@ -4,12 +4,12 @@ import numpy as np
 import functions as f
 from SeqModel import SeqModel
 
-model=SeqModel(1,1).add_layer(2000,f.Relu())
+model=SeqModel(1,1).add_layer(8,f.Relu())
 def train():
     print("-----------------------------beginning weights------------------")
 
 
-    for i in range(10000):
+    for i in range(2):
         #sample(1)
         x,y=np.random.rand(2)
         print(x,y)
@@ -73,6 +73,7 @@ def sample(x):
 
 
 #sample2d()
+#sample(0)
 
 train()
 sample(0)

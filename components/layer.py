@@ -1,6 +1,10 @@
 import numpy as np
 import functions as f
+
+
 class Layer:
+
+
     def __init__(self, neuron_count, layer_type,activation_function=None):
         self.neuron_count=neuron_count
         self.layer_type=layer_type
@@ -32,5 +36,6 @@ class Layer:
         self.calculate_derivatives()
         return self.layer_out
 
+
     def calculate_derivatives(self):
-        self.derivatives=self.activation_function.d(self.layer_in) if (self.activation_function is not None) else np.ones((1,self.neuron_count))
+        self.derivatives_wrt_input=self.activation_function.d(self.layer_in) if (self.activation_function is not None) else np.ones((1,self.neuron_count))

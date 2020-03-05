@@ -1,21 +1,29 @@
 import numpy as np
 
 class Function:
+
     def __init__(self):
         pass
 
+
     def call(self,X):
         pass
+
 
     def d(self,X):
         pass
 
 
 class Relu(Function):
+
     def __init(self):
         pass
+
+
     def call(self,X):
         return np.maximum(0,X)
+
+
     def d(self,X):
         def f(x):
             if x<=0: return 0
@@ -23,11 +31,17 @@ class Relu(Function):
         func = np.vectorize(f)
         return func(X)
 
+
 class Mse(Function):
+
     def __init(self):
         pass
+
+
     def call(self,Pred,Act):
         return (Pred-Act)**2
+
+        
     def d(self,Pred,Act):
         return Pred-Act
 
