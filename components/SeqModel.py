@@ -75,7 +75,7 @@ class SeqModel:
         #traverse layer list in reversed order
         for i,layer in reversed(list(enumerate(self.layers))):
             
-            if i-1<0: break
+            if i==0: break
             
             prev_layer=self.layers[i-1]
             weights_between=self.weights[i-1]
@@ -128,8 +128,8 @@ class SeqModel:
     #method to update variables
     def update(self):
         for i in range(len(self.weights)):
-            self.weights[i]=self.weights[i]-self.weights_gradient[i]*0.001
+            self.weights[i]=self.weights[i]-self.weights_gradient[i]*0.01
         for i in range(len(self.layers)):
             if self.layers[i].biases is not None:
-                self.layers[i].biases=self.layers[i].biases-self.biases_gradient[i]*0.001
+                self.layers[i].biases=self.layers[i].biases-self.biases_gradient[i]*0.01
     
