@@ -48,8 +48,7 @@ class SeqModel:
             
             next_layer=self.layers[i+1]
             res=np.matmul(res,np.transpose(self.weights[i]))
-            
-            
+
             #forward them to layer which adds biases and applies activation function assigned to layer
             res=next_layer.forward(res)
 
@@ -105,7 +104,7 @@ class SeqModel:
             new_chain=prev_layer.derivatives_wrt_input*derivatives_wrt_output
 
             #derivative of bias is same as new_chain since changing input is linearly dependent to changing bias
-            self.biases_gradient.append(new_chain)
+            prev_layer.biases_gradient=new_chain
 
             
             #this paremeter is for the gradients
@@ -128,8 +127,8 @@ class SeqModel:
     #method to update variables
     def update(self):
         for i in range(len(self.weights)):
-            self.weights[i]=self.weights[i]-self.weights_gradient[i]*0.01
+            self.weights[i]=self.weights[i]-self.weights_gradient[i]*0.001
         for i in range(len(self.layers)):
             if self.layers[i].biases is not None:
-                self.layers[i].biases=self.layers[i].biases-self.biases_gradient[i]*0.01
+                self.layers[i].biases=self.layers[i].biases-self.layers[i].biases_gradient*0.001
     

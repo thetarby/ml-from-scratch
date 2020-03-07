@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import math 
 import numpy as np
 import functions as f
-
+np.random.seed(42)
 model=Model(input_layer=1,hidden_layer_neuron_number=2000,output_layer=1, hidden_activation=f.relu, output_activation=None)
 def train():
     print("-----------------------------beginning weights------------------")
 
 
-    for i in range(10000):
+    for i in range(1):
         #sample(1)
         x,y=np.random.rand(2)
         print(x,y)
@@ -75,6 +75,6 @@ def sample(x):
 #sample2d()
 
 train()
-sample(0)
+#sample(0)
 #sample2d()
 x=input()

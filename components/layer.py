@@ -29,7 +29,8 @@ class Layer:
         #if there is bias apply it and then apply activation function
         if self.activation_function is not None:
             if self. biases is not None:
-                self.layer_out=self.activation_function.call(self.layer_in + self.biases )
+                self.layer_in=self.layer_in + self.biases
+                self.layer_out=self.activation_function.call(self.layer_in)
             else:
                 self.layer_out=self.activation_function.call(self.layer_in)
         

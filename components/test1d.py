@@ -3,7 +3,7 @@ import math
 import numpy as np
 import functions as f
 from SeqModel import SeqModel
-
+np.random.seed(42)
 model=SeqModel(1,1).add_layer(2000,f.Relu())
 def train():
     print("-----------------------------beginning weights------------------")
