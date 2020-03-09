@@ -92,12 +92,11 @@ class SeqModel:
             #every column in weights_between element-wise multiplied with chain vector
             temp=weights_between*np.transpose(chain)
 
-
             #gradient wrt to output of prev_layer
             # shape=(1,size of prev_layer) 
             #temp matrix is summed along its columns
-            derivatives_wrt_output=np.sum(temp,0)
-           
+            derivatives_wrt_output=np.sum(temp,0,keepdims=True)
+
             #derivative of output wrt to input for prev_layer
             #element wise multiplication
             #TODO: derivatives_wrt_input shape must be (1,x)
@@ -106,7 +105,6 @@ class SeqModel:
             #derivative of bias is same as new_chain since changing input is linearly dependent to changing bias
             prev_layer.biases_gradient=new_chain
 
-            
             #this paremeter is for the gradients
             weights_between_g=[]
             for neuron in chain.flatten():
@@ -125,10 +123,10 @@ class SeqModel:
 
 
     #method to update variables
-    def update(self):
+    def update(self,lr):
         for i in range(len(self.weights)):
-            self.weights[i]=self.weights[i]-self.weights_gradient[i]*0.001
+            self.weights[i]=self.weights[i]-self.weights_gradient[i]*lr
         for i in range(len(self.layers)):
             if self.layers[i].biases is not None:
-                self.layers[i].biases=self.layers[i].biases-self.layers[i].biases_gradient*0.001
+                self.layers[i].biases=self.layers[i].biases-self.layers[i].biases_gradient*lr
     

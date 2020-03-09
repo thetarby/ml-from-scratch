@@ -3,19 +3,19 @@ import matplotlib.pyplot as plt
 import math 
 import numpy as np
 import functions as f
-
-model=Model(input_layer=2,hidden_layer_neuron_number=2000,output_layer=1, hidden_activation=f.relu, output_activation=f.sigmoid)
+np.random.seed(42)
+model=Model(input_layer=2,hidden_layer_neuron_number=8,output_layer=1, hidden_activation=f.relu, output_activation=f.sigmoid)
 def train():
     print("-----------------------------beginning weights------------------")
 
 
-    for i in range(10000):
+    for i in range(5000):
         #sample(1)
-        x,y=np.random.rand(2)
+        x,y=np.random.rand(2)*2-1
         print(x,y)
         pred=model.forward([[x,y]])
 
-        act=int( (x>0.5 and y>0.5) or (y<0.5 and x<0.5) ) #2*n if n>0 else 0
+        act=int( (x>0 and y>0) or (y<0 and x<0) ) #2*n if n>0 else 0
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
@@ -35,8 +35,8 @@ def train():
 def sample2d():
     f = plt.figure(1)
     plt.plot()
-    for i in range(50):
-        for j in range(50):
+    for i in range(-25,25):
+        for j in range(-25,25):
             x=1/50*i
             y=1/50*j
             if model.forward([[x,y]])>0.5:
@@ -45,11 +45,11 @@ def sample2d():
     plt.show()
 
     plt.plot()
-    for i in range(50):
-        for j in range(50):
+    for i in range(-25,25):
+        for j in range(-25,25):
             x=1/50*i
             y=1/50*j
-            if ((x>0.5 and y>0.5) or (y<0.5 and x<0.5)) :
+            if ((x>0 and y>0) or (y<0 and x<0)) :
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()

@@ -3,23 +3,27 @@ import math
 import numpy as np
 import functions as f
 from SeqModel import SeqModel
+
+#42 is the meaning of the life
 np.random.seed(42)
-model=SeqModel(1,1).add_layer(2000,f.Relu())
+
+model=SeqModel(1,1).add_layer(16,f.LeakyRelu())
 def train():
     print("-----------------------------beginning weights------------------")
 
 
     for i in range(10000):
         #sample(1)
-        x,y=np.random.rand(2)
+        x,y=np.random.rand(2)*2-1
         print(x,y)
         pred=model.forward([[x]])
 
-        act=np.sin(x*15)/2+1+x**2 #2*n if n>0 else 0
+        act=np.sin(x*5)/2+1+x**2 #2*n if n>0 else 0
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
-        model.update()
+
+        model.update(lr=0.001)
     """
         print("-----------------------------grads------------------")
         print(w_inp_hidden1_g)
@@ -56,10 +60,10 @@ def sample2d():
 def sample(x):
     x=[]
     y=[]
-    xx = np.array(range(0,100))/100
-    yy = np.sin(xx*15)/2+1+xx**2 # 5*xx**2 - 15*(xx-0.3)**3 + xx/3  
-    for i in range(100):
-        n=1/100*i
+    xx = np.array(range(-50,50))/50
+    yy = np.sin(xx*5)/2+1+xx**2 
+    for i in range(-50,50):
+        n=1/50*i
         pred=model.forward([[n]])
         x.append(n)
         y.append(pred[0][0])

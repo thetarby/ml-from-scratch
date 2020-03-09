@@ -15,7 +15,7 @@ class Layer:
         self.layer_out=None
         
         #if it is a hidden layer add bias variables in the shape(1,x) which is basically one row matrix
-        self.biases=np.random.rand(1,neuron_count)*2-1 if layer_type=='hidden' else None
+        self.biases=np.zeros((1,neuron_count)) if layer_type=='hidden' else None
 
         self.activation_function=activation_function
 

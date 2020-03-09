@@ -4,17 +4,17 @@ import numpy as np
 
 class Model:
     def __init__(self, input_layer=1 ,hidden_layer_neuron_number=2000, output_layer=1,hidden_activation=f.relu, output_activation=f.sigmoid):
-        self.b_hidden=np.random.rand(1,hidden_layer_neuron_number)*2-1
+        
         self.w_inp_hidden=np.random.rand(hidden_layer_neuron_number,input_layer)*2-1
-        self.w_hidden_out=np.random.rand(output_layer,hidden_layer_neuron_number)*2-1
-
         self.w_inp_hidden_g=[]
-    
+        
+        self.b_hidden=np.zeros((1,hidden_layer_neuron_number))
         self.b_hidden_g=[]
 
         self.hidden_layer_in=[]
         self.hidden_layer_out=[]
 
+        self.w_hidden_out=np.random.rand(output_layer,hidden_layer_neuron_number)*2-1
         self.w_hidden_out_g=[]
 
         self.output_in=None
@@ -73,6 +73,6 @@ class Model:
 
 
     def update(self):
-        self.w_inp_hidden=self.w_inp_hidden-np.array(self.w_inp_hidden_g)*0.001
-        self.w_hidden_out=self.w_hidden_out-np.array(self.w_hidden_out_g)*0.001
-        self.b_hidden=self.b_hidden-np.array(self.b_hidden_g)*0.001
+        self.w_inp_hidden=self.w_inp_hidden-np.array(self.w_inp_hidden_g)*0.03
+        self.w_hidden_out=self.w_hidden_out-np.array(self.w_hidden_out_g)*0.03
+        self.b_hidden=self.b_hidden-np.array(self.b_hidden_g)*0.03
