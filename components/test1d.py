@@ -18,12 +18,12 @@ def train():
         print(x,y)
         pred=model.forward([[x]])
 
-        act=np.sin(x*5)/2+1+x**2 #2*n if n>0 else 0
+        act=np.sin(x*5)/2+1+x**2
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
 
-        model.update(lr=0.001)
+        model.update(lr=0.01)
     """
         print("-----------------------------grads------------------")
         print(w_inp_hidden1_g)
