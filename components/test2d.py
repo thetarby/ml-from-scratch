@@ -7,7 +7,7 @@ from layer import *
 #42 is the meaning of the life
 np.random.seed(42)
 
-model=SeqModel().add_layer(InputLayer(1)).add_layer(DenseLayer(16,f.LeakyRelu())).add_layer(OutputLayer(1))
+model=SeqModel().add_layer(InputLayer(2)).add_layer(DenseLayer(16,f.LeakyRelu())).add_layer(OutputLayer(1, f.Sigmoid()))
 def train():
     print("-----------------------------beginning weights------------------")
 
@@ -16,9 +16,9 @@ def train():
         #sample(1)
         x,y=np.random.rand(2)*2-1
         print(x,y)
-        pred=model.forward([[x]])
+        pred=model.forward([[x,y]])
 
-        act=np.sin(x*5)/2+1+x**2
+        act= ((x>0 and y>0) or (y<0 and x<0))
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
@@ -39,8 +39,8 @@ def train():
 def sample2d():
     f = plt.figure(1)
     plt.plot()
-    for i in range(50):
-        for j in range(50):
+    for i in range(-25,25):
+        for j in range(-25,25):
             x=1/50*i
             y=1/50*j
             if model.forward([[x,y]])>0.5:
@@ -49,37 +49,19 @@ def sample2d():
     plt.show()
 
     plt.plot()
-    for i in range(50):
-        for j in range(50):
+    for i in range(-25,25):
+        for j in range(-25,25):
             x=1/50*i
             y=1/50*j
-            if ((x>0.5 and y>0.5) or (y<0.5 and x<0.5)) :
+            if ((x>0 and y>0) or (y<0 and x<0)) :
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()
-def sample(x):
-    x=[]
-    y=[]
-    xx = np.array(range(-50,50))/50
-    yy = np.sin(xx*5)/2+1+xx**2 
-    for i in range(-50,50):
-        n=1/50*i
-        pred=model.forward([[n]])
-        x.append(n)
-        y.append(pred[0][0])
-    plt.plot(xx,yy)
-    plt.plot(np.array(x),np.array(y))
-    plt.pause(0.001)
-    plt.draw()
-    if(x): plt.clf()
-    else: 
-        input()
 
 
 #sample2d()
-#sample(0)
 
 train()
-sample(0)
-#sample2d()
+#sample(0)
+sample2d()
 x=input()

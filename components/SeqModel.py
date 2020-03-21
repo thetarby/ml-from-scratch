@@ -1,31 +1,21 @@
 import numpy as np
-from layer import Layer
+from layer import *
 import functions as f
 
 class SeqModel:
-    def __init__(self,input_dim, output_dim):
-        self.input_dim=input_dim
-        self.output_dim=output_dim
-
-        self.layers=[Layer(input_dim, 'input'),Layer(output_dim,'output')]
+    def __init__(self):
+        self.layers=[]
         self.weights=[]
 
-    
-    def add_layer(self,neuron_count,activation_function):
-        new_layer=Layer(neuron_count,'hidden', activation_function)
-        self.layers.insert(-1,new_layer)
-
-        #create weight matrix between each layer
-        self.weights=[]
-        for i,layer in enumerate(self.layers):
-            #if it is last layer break loop
-            if(i==len(self.layers)-1): 
-                break
-
-            next_layer=self.layers[i+1]
-            self.weights.append(np.random.rand(next_layer.neuron_count,layer.neuron_count)*2-1)
+    def add_layer(self,layer):
+        self.layers.append(layer)
         
-        #return self to make chaining snytax available
+        #if it is first layer do not add to weights
+        if len(self.layers)==1: 
+            return self
+        #else add weights between layers
+        prev_layer=self.layers[-2]
+        self.weights.append(np.random.rand(layer.neuron_count,prev_layer.neuron_count)*2-1)
         return self
 
 
@@ -71,6 +61,11 @@ class SeqModel:
         
         #TODO: make sure its shape is applicable
         chain=np.array(e)
+        
+        #derivative of output layer
+        chain*=self.layers[-1].derivatives_wrt_input
+        
+        
         #traverse layer list in reversed order
         for i,layer in reversed(list(enumerate(self.layers))):
             

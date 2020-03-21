@@ -60,6 +60,22 @@ class LeakyRelu(Function):
         dx[X < 0] = self.alpha
         return dx
 
+
+class Sigmoid(Function):
+    def __init__(self):
+	    pass
+
+
+    def call(self,X):
+        s=1/(1+np.exp(-X))  
+        return s
+
+  
+    def d(self,X):
+        s=1/(1+np.exp(-X))
+        ds=s*(1-s)  
+        return ds
+
 def tanh(X):
     t=(np.exp(X)-np.exp(-X))/(np.exp(X)+np.exp(-X))
     dt=1-t**2
