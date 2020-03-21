@@ -1,10 +1,21 @@
 import numpy as np
 import functions as f
 
-
 class Layer:
+    def __init__(self):
+        pass
+
+    def forward(self):
+        pass
+
+    def backward(self):
+        pass
+    
+    def calculate_derivatives(self):
+        pass
 
 
+class DenseLayer(Layer):
     def __init__(self, neuron_count, layer_type,activation_function=None):
         self.neuron_count=neuron_count
         self.layer_type=layer_type
