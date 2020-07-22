@@ -11,7 +11,7 @@ from pytarbs.feed_forward.layer import *
 #42 is the meaning of the life
 np.random.seed(42)
 
-model=FeedForward().add_layer(InputLayer(2)).add_layer(DenseLayer(2,16,f.LeakyRelu())).add_layer(DenseLayer(16,16,f.LeakyRelu())).add_layer(OutputLayer(16,1,None))
+model=FeedForward().add_layer(InputLayer(2)).add_layer(DenseLayer(2,16,f.LeakyRelu())).add_layer(DenseLayer(16,16,f.LeakyRelu())).add_layer(OutputLayer(16,1,f.Sigmoid()))
 #function to be approximated. this will be the second graph 
 #after training finishes. First graph will be prediction of the model
 func= lambda x,y:((x>0 and y>0) or (y<0 and x<0))
