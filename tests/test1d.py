@@ -1,24 +1,35 @@
+import sys
+import os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 import matplotlib.pyplot as plt
 import math 
 import numpy as np
-import functions as f
-from SeqModel import SeqModel
-from layer import *
+import pytarbs.functions as f
+from pytarbs.SeqModel import SeqModel
+from pytarbs.layer import *
 #42 is the meaning of the life
 np.random.seed(42)
 
-model=SeqModel().add_layer(InputLayer(1)).add_layer(DenseLayer(16,f.LeakyRelu())).add_layer(OutputLayer(1))
+model=SeqModel().add_layer(InputLayer(1)).add_layer(DenseLayer(8,f.LeakyRelu())).add_layer(DenseLayer(8,f.LeakyRelu())).add_layer(OutputLayer(1))
+
+#function to be approximated. this will be plotted as blue in below plot
+func= lambda x:np.sin(x*5)/2+1+x**2
+
 def train():
-    print("-----------------------------beginning weights------------------")
+    print("-----------------------------beginning------------------")
 
 
     for i in range(10000):
         #sample(1)
         x,y=np.random.rand(2)*2-1
         print(x,y)
+
+        #predicted
         pred=model.forward([[x]])
 
-        act=np.sin(x*5)/2+1+x**2
+        #actual value of the func
+        act=func(x)
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
@@ -33,35 +44,12 @@ def train():
         print(w_inp_hidden1)
         print(w_hidden1_out)"""
 
-
-
-
-def sample2d():
-    f = plt.figure(1)
-    plt.plot()
-    for i in range(50):
-        for j in range(50):
-            x=1/50*i
-            y=1/50*j
-            if model.forward([[x,y]])>0.5:
-                plt.scatter(x,y,color='r')
-            else:plt.scatter(x,y,color='b')
-    plt.show()
-
-    plt.plot()
-    for i in range(50):
-        for j in range(50):
-            x=1/50*i
-            y=1/50*j
-            if ((x>0.5 and y>0.5) or (y<0.5 and x<0.5)) :
-                plt.scatter(x,y,color='r')
-            else:plt.scatter(x,y,color='b')
-    plt.show()
+#funtion to draw plot
 def sample(x):
     x=[]
     y=[]
     xx = np.array(range(-50,50))/50
-    yy = np.sin(xx*5)/2+1+xx**2 
+    yy = func(xx)
     for i in range(-50,50):
         n=1/50*i
         pred=model.forward([[n]])
@@ -70,7 +58,7 @@ def sample(x):
     plt.plot(xx,yy)
     plt.plot(np.array(x),np.array(y))
     plt.pause(0.001)
-    plt.draw()
+    plt.show()
     if(x): plt.clf()
     else: 
         input()

@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 import matplotlib.pyplot as plt
 import math 
 import numpy as np
@@ -8,6 +12,10 @@ from pytarbs.layer import *
 np.random.seed(42)
 
 model=SeqModel().add_layer(InputLayer(2)).add_layer(DenseLayer(16,f.Relu())).add_layer(OutputLayer(1, f.Sigmoid()))
+
+#function to be approximated. this will be the second graph 
+#after training finishes. First graph will be prediction of the model
+func= lambda x,y:((x>0 and y>0) or (y<0 and x<0))
 def train():
     print("-----------------------------beginning weights------------------")
 
@@ -18,7 +26,7 @@ def train():
         print(x,y)
         pred=model.forward([[x,y]])
 
-        act= ((x>0 and y>0) or (y<0 and x<0))
+        act= func(x,y)
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
@@ -37,6 +45,7 @@ def train():
 
 
 def sample2d():
+    #plot prediction
     f = plt.figure(1)
     plt.plot()
     for i in range(-25,25):
@@ -47,13 +56,14 @@ def sample2d():
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()
-
+    
+    #plot actual function
     plt.plot()
     for i in range(-25,25):
         for j in range(-25,25):
             x=1/50*i
             y=1/50*j
-            if ((x>0 and y>0) or (y<0 and x<0)) :
+            if func(x,y) :
                 plt.scatter(x,y,color='r')
             else:plt.scatter(x,y,color='b')
     plt.show()
