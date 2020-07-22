@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import math 
 import numpy as np
-import functions as f
-from SeqModel import SeqModel
-from layer import *
+from pytarbs import functions as f
+from pytarbs.SeqModel import SeqModel
+from pytarbs.layer import *
 #42 is the meaning of the life
 np.random.seed(42)
 
-model=SeqModel().add_layer(InputLayer(2)).add_layer(DenseLayer(16,f.LeakyRelu())).add_layer(OutputLayer(1, f.Sigmoid()))
+model=SeqModel().add_layer(InputLayer(2)).add_layer(DenseLayer(16,f.Relu())).add_layer(OutputLayer(1, f.Sigmoid()))
 def train():
     print("-----------------------------beginning weights------------------")
 
@@ -23,7 +23,7 @@ def train():
         print("prediction : "+str(pred), "act : "+str(act))
         model.backward(act)
 
-        model.update(lr=0.01)
+        model.update(lr=0.03)
     """
         print("-----------------------------grads------------------")
         print(w_inp_hidden1_g)

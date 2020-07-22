@@ -1,6 +1,6 @@
 import numpy as np
-from layer import *
-import functions as f
+from pytarbs.layer import *
+import pytarbs.functions as f
 class SeqModel:
     def __init__(self):
         self.layers=[]

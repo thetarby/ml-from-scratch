@@ -13,6 +13,18 @@ class Function:
     def d(self,X):
         pass
 
+class Dummy(Function):
+
+    def __init__(self):
+        pass
+
+
+    def call(self,X):
+        return X
+
+
+    def d(self,X):
+        return np.ones_like(X)
 
 class Relu(Function):
 

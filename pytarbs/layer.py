@@ -1,5 +1,5 @@
 import numpy as np
-import functions as f
+import pytarbs.functions as f
 
 class BaseLayer:
     def __init__(self,neuron_count):
