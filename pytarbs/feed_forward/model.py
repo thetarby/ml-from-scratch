@@ -26,17 +26,20 @@ class FeedForward:
 
     #method to calculate gradients for each variable
     #act is the actual value
-    def backward(self,actual):
+    def backward(self,loss):
         #calculate error with mse wrt to actual value
-        e=f.d_mse(self.prediction,actual)
-        
+        #e=f.d_mse(self.prediction,actual)
+        e=loss
+
         #TODO: make sure its shape is applicable
-        chain=np.array(e)        
-        print(chain)
+        chain=np.array(e)
+
+        #if loss function's gradient values and output layer's size do not match give error 
+        assert chain.size == self.layers[-1].out_features, 'Loss size do not match out layer size'
+
         #traverse layer list in reversed order
         for i,layer in reversed(list(enumerate(self.layers))):
             chain=layer.backward(chain)
-            print(chain)
 
 
     #method to update variables

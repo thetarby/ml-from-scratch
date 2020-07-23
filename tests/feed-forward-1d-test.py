@@ -32,33 +32,22 @@ func= lambda x:np.sin(x*5)/2+1+x**2
 def train():
     print("-----------------------------beginning------------------")
 
-
     for i in range(10000):
-        #sample(1)
         x,y=np.random.rand(2)*2-1
-        print(x,y)
-
-        #predicted
         pred=model.forward([[x]])
 
         #actual value of the func
         act=func(x)
+        loss=f.d_mse(pred,act)
         print("-----------------------pass : {} ----------------".format((x,y)))
         print("prediction : "+str(pred), "act : "+str(act))
-        model.backward(act)
+        model.backward(loss)
 
         model.update(lr=0.01)
-    """
-        print("-----------------------------grads------------------")
-        print(w_inp_hidden1_g)
-        print(w_hidden1_out_g)
 
-        print("-----------------------------updated------------------")
-        print(w_inp_hidden1)
-        print(w_hidden1_out)"""
 
 #funtion to draw plot
-def sample(x):
+def sample(animated):
     x=[]
     y=[]
     xx = np.array(range(-50,50))/50
@@ -72,15 +61,11 @@ def sample(x):
     plt.plot(np.array(x),np.array(y))
     plt.pause(0.001)
     plt.show()
-    if(x): plt.clf()
+    if(animated): plt.clf()
     else: 
         input()
 
 
-#sample2d()
-#sample(0)
-
 train()
 sample(0)
-#sample2d()
 x=input()

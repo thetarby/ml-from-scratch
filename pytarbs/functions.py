@@ -13,6 +13,7 @@ class Function:
     def d(self,X):
         pass
 
+
 class Dummy(Function):
 
     def __init__(self):
@@ -25,6 +26,7 @@ class Dummy(Function):
 
     def d(self,X):
         return np.ones_like(X)
+
 
 class Relu(Function):
 
@@ -57,6 +59,7 @@ class Mse(Function):
     def d(self,Pred,Act):
         return Pred-Act
 
+
 class LeakyRelu(Function):
 
     def __init__(self,alpha=0.01):
@@ -87,6 +90,47 @@ class Sigmoid(Function):
         s=1/(1+np.exp(-X))
         ds=s*(1-s)  
         return ds
+
+
+class SoftMaxLoss(Function):
+  def __init__(self,epsilon=1e-12):
+    self.epsilon=epsilon 
+    self.predictions=None
+
+  def call(self,x,targets):
+    predictions=softmax(x)
+    self.predictions=predictions
+    
+    c=cross_entropy(predictions, targets, self.epsilon)
+    return c
+
+
+  def d(self,x, targets):
+    if self.predictions is None:
+      self.predictions=softmax(x)
+    c=cross_entropy_grad(self.predictions, targets)
+    return softmax_grad(self.predictions)@c.T
+
+
+def softmax(x):
+    """Compute softmax values for each sets of scores in x."""
+    return np.exp(x) / np.sum(np.exp(x), axis=0)
+
+def softmax_grad(softmax):
+    # Reshape the 1-d softmax to 2-d so that np.dot will do the matrix multiplication
+    s = softmax.reshape(-1,1)
+    return np.diagflat(s) - np.dot(s, s.T)
+
+def cross_entropy(predictions, targets, epsilon=1e-12):
+    predictions = np.clip(predictions, epsilon, 1. - epsilon)
+    N = predictions.shape[0]
+    x=-(targets*np.log(predictions)+(1-targets)*np.log(1-predictions))
+    ce = np.sum(x)/N
+    return ce
+
+def cross_entropy_grad(predictions, targets, epsilon=1e-12):
+    predictions = np.clip(predictions, epsilon, 1. - epsilon)
+    return -(targets*(1/predictions)-(1-targets)*1/(1-predictions))
 
 def tanh(X):
     t=(np.exp(X)-np.exp(-X))/(np.exp(X)+np.exp(-X))
