@@ -111,6 +111,36 @@ class SoftMaxLoss(Function):
     c=cross_entropy_grad(self.predictions, targets)
     return softmax_grad(self.predictions)@c.T
 
+class SoftMax(Function):
+    def __init__(self):
+        pass
+
+
+    def call(self,X):
+        return np.exp(x) / np.sum(np.exp(x), axis=0)
+
+    #softmax parameter is the softmax result of the original input not input itself. 
+    def d(self,softmax):
+        s = softmax.reshape(-1,1)
+        return np.diagflat(s) - np.dot(s, s.T)
+
+
+class CrossEntropy(Function):
+    def __init__(self):
+        pass
+
+
+    def call(self,X):
+        predictions = np.clip(predictions, epsilon, 1. - epsilon)
+        N = predictions.shape[0]
+        x=-(targets*np.log(predictions)+(1-targets)*np.log(1-predictions))
+        ce = np.sum(x)/N
+        return ce
+    #softmax parameter is the softmax result of the original input not input itself. 
+    def d(self,softmax):
+        predictions = np.clip(predictions, epsilon, 1. - epsilon)
+        return -(targets*(1/predictions)-(1-targets)*1/(1-predictions))
+
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
